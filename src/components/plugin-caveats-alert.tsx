@@ -34,9 +34,7 @@ export function PluginCaveatsAlert({ plugin }: { plugin: PluginRecord }) {
         ) : null}
         {plugin.limitationsNotesHtml ? (
           <div>
-            <p className="mb-1 text-xs uppercase tracking-wide">
-              From the plugin's README
-            </p>
+            <p className="type-eyebrow mb-1">From the plugin's README</p>
             {/* limitationsNotesHtml is sanitized at scan time (src/lib/markdown.ts) before
                 it's ever written to data/plugins.json — never render raw third-party
                 markdown here. */}

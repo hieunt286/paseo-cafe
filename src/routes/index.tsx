@@ -5,7 +5,9 @@ import { CatalogSidebar } from "@/components/catalog-sidebar"
 import { FeaturedSection } from "@/components/featured-section"
 import { InstallCallout } from "@/components/install-callout"
 import { ThemeFeaturedSection } from "@/components/theme-featured-section"
+import { useScrollAnchor } from "@/hooks/use-scroll-anchor"
 import {
+  type CatalogSearch,
   clampCatalogPage,
   matchesPluginQuery,
   parseCatalogSearch,
@@ -156,8 +158,29 @@ function App() {
     navigate({
       search: (previous) => ({ ...previous, page }),
       replace: true,
+      resetScroll: false,
     })
   }, [navigate, page, requestedPage])
+
+  // Filters apply in place. The router's default is to scroll to the top after
+  // every navigation, which yanks the page out from under the sidebar; instead
+  // hold the results list where the reader is looking while the sections above
+  // it appear or disappear.
+  const { anchorRef: resultsRef, capture: holdResultsPosition } =
+    useScrollAnchor<HTMLDivElement>(
+      `${search.q}|${search.category}|${search.platform}|${search.sort}`
+    )
+  const applyFilters = (
+    patch: Partial<Omit<CatalogSearch, "page">>,
+    replace = false
+  ) => {
+    holdResultsPosition()
+    navigate({
+      search: (prev) => ({ ...prev, ...patch, page: 1 }),
+      replace,
+      resetScroll: false,
+    })
+  }
 
   const themePlugins = useMemo(
     () =>
@@ -192,16 +215,14 @@ function App() {
     : `${plugins.length} plugin${plugins.length === 1 ? "" : "s"} generated from their source repos.`
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 pb-20 sm:px-6">
-      <div className="mx-auto flex w-full min-w-0 max-w-2xl flex-col gap-4 px-0 pt-16 pb-2 text-center sm:px-6">
-        <div className="mx-auto flex items-center gap-1.5 text-foreground/50 text-xs">
+    <div className="page-body">
+      <div className="mx-auto flex w-full min-w-0 max-w-2xl flex-col gap-base text-center">
+        <div className="type-meta mx-auto flex items-center gap-chip text-muted-foreground">
           <span className="size-1.5 rounded-full bg-primary" />
           Community-run unofficial directory
         </div>
-        <h1 className="font-semibold text-4xl tracking-tight">
-          A directory of paseo.sh plugins
-        </h1>
-        <p className="mx-auto max-w-xl text-foreground/70">
+        <h1 className="type-display">A directory of paseo.sh plugins</h1>
+        <p className="type-lead mx-auto max-w-xl text-muted-foreground">
           Browse community-built{" "}
           <a href="https://paseo.sh" className="underline underline-offset-4">
             Paseo
@@ -212,16 +233,7 @@ function App() {
         {paseoCafePlugin ? <InstallCallout plugin={paseoCafePlugin} /> : null}
       </div>
 
-      <p className="text-foreground/60 text-sm">{summary}</p>
-      {search.category === "theme" ? (
-        <p className="border border-border bg-card px-3 py-2 text-sm">
-          Want to compare the palettes themselves?{" "}
-          <Link to="/themes" className="underline underline-offset-4">
-            Open the Themes gallery.
-          </Link>
-        </p>
-      ) : null}
-      <div className="mx-auto flex w-full flex-col gap-8 lg:flex-row lg:items-start">
+      <div className="flex flex-col gap-section lg:flex-row lg:items-start">
         <CatalogSidebar
           search={search}
           totalCount={plugins.length}
@@ -229,25 +241,28 @@ function App() {
           categoryCounts={categoryCounts}
           platforms={platformsWithResults}
           platformCounts={platformCounts}
-          onQueryChange={(q) =>
-            navigate({
-              search: (prev) => ({ ...prev, q, page: 1 }),
-              replace: true,
-            })
-          }
-          onSortChange={(sort) =>
-            navigate({ search: (prev) => ({ ...prev, sort, page: 1 }) })
-          }
-          onCategoryChange={(category) =>
-            navigate({ search: (prev) => ({ ...prev, category, page: 1 }) })
-          }
-          onPlatformChange={(platform) =>
-            navigate({ search: (prev) => ({ ...prev, platform, page: 1 }) })
-          }
+          onQueryChange={(q) => applyFilters({ q }, true)}
+          onSortChange={(sort) => applyFilters({ sort })}
+          onCategoryChange={(category) => applyFilters({ category })}
+          onPlatformChange={(platform) => applyFilters({ platform })}
         />
-        <div className="min-w-0 flex-1">
+        <div className="flex min-w-0 flex-1 flex-col gap-section">
+          {/* Everything that changes with the filters lives in this column, so
+              nothing above the sidebar row moves when a filter is clicked. */}
+          <div className="flex flex-col gap-stack">
+            <p className="type-body text-muted-foreground">{summary}</p>
+            {search.category === "theme" ? (
+              <p className="surface-panel type-body px-stack py-group">
+                Want to compare the palettes themselves?{" "}
+                <Link to="/themes" className="underline underline-offset-4">
+                  Open the Themes gallery.
+                </Link>
+              </p>
+            ) : null}
+          </div>
+
           {showFeatured ? (
-            <div className="flex flex-col gap-8">
+            <>
               <ThemeFeaturedSection plugins={themePlugins} />
               <FeaturedSection
                 title="Popular"
@@ -259,18 +274,20 @@ function App() {
                 description="Latest npm releases, followed by newest Git listings."
                 plugins={recentlyAdded}
               />
-            </div>
+            </>
           ) : null}
 
-          <CatalogResults
-            plugins={pagePlugins}
-            search={search}
-            page={page}
-            totalPages={totalPages}
-            pageStart={pageStart}
-            pageEnd={pageEnd}
-            totalCount={sorted.length}
-          />
+          <div ref={resultsRef}>
+            <CatalogResults
+              plugins={pagePlugins}
+              search={search}
+              page={page}
+              totalPages={totalPages}
+              pageStart={pageStart}
+              pageEnd={pageEnd}
+              totalCount={sorted.length}
+            />
+          </div>
         </div>
       </div>
     </div>

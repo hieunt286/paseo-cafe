@@ -38,7 +38,7 @@ export function PluginSecurityScan({
       ) : (
         <IconAlertTriangle />
       )}
-      <AlertTitle className="flex flex-wrap items-center gap-2">
+      <AlertTitle className="flex flex-wrap items-center gap-group">
         <span>{source} security scan</span>
         <Badge
           variant={
@@ -55,7 +55,7 @@ export function PluginSecurityScan({
       <AlertDescription className="space-y-3">
         {attestation ? (
           <>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-group">
               <Badge variant="outline">
                 Blocking findings: {attestation.blockingFindings}
               </Badge>
@@ -77,9 +77,10 @@ export function PluginSecurityScan({
                 href={attestation.reportUrl}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-1 text-foreground hover:underline"
+                className="inline-flex items-center gap-inline text-foreground hover:underline"
               >
-                Open security report <IconExternalLink className="size-3.5" />
+                Open security report{" "}
+                <IconExternalLink className="size-icon-sm" />
               </a>
             ) : null}
           </>
