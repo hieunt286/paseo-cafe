@@ -28,7 +28,7 @@ export function SectionHeader({
         <Heading
           id={id}
           className={cn(
-            "scroll-mt-24",
+            "section-anchor",
             Heading === "h3" ? "type-subheading" : "type-heading"
           )}
         >

@@ -72,8 +72,11 @@ export function PluginCard({
 
   return (
     <Link to="/plugins/$id" params={{ id: plugin.id }} className="block">
-      <Card className="surface-interactive h-full pt-0">
-        <div className="relative aspect-video w-full shrink-0 overflow-hidden border-border border-b bg-muted">
+      <Card className="surface-interactive h-full">
+        <div
+          data-slot="card-media"
+          className="relative aspect-video w-full shrink-0 overflow-hidden border-border border-b bg-muted"
+        >
           {galleryImage ? (
             <img
               src={galleryImage}

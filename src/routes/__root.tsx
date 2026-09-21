@@ -48,7 +48,7 @@ export const Route = createRootRoute({
     ],
   }),
   notFoundComponent: () => (
-    <main className="mx-auto flex max-w-md flex-col items-center gap-base px-base py-24 text-center">
+    <main className="not-found-page mx-auto flex max-w-md flex-col items-center gap-base px-base text-center">
       <p className="font-semibold text-6xl text-muted-foreground/60">404</p>
       <h1 className="type-title">Page not found</h1>
       <p className="type-body text-muted-foreground">

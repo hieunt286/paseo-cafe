@@ -159,6 +159,19 @@
   @apply transition-colors hover:bg-muted;
 }
 
+/* Named structural offsets keep component markup on design-system roles. */
+@utility copy-block-label {
+  @apply pr-10;
+}
+
+@utility section-anchor {
+  @apply scroll-mt-24;
+}
+
+@utility not-found-page {
+  @apply py-24;
+}
+
 /* One horizontal shell shared by the header, footer, and every page, so their
    edges always line up. */
 @utility page-shell {

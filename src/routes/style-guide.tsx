@@ -80,9 +80,17 @@ const SPACE_USE = {
   section: "Between page sections and page-level regions",
 } as const satisfies Record<SpaceRole, string>
 
-function Spec({ title, children }: { title: string; children: ReactNode }) {
+function Spec({
+  id,
+  title,
+  children,
+}: {
+  id?: string
+  title: string
+  children: ReactNode
+}) {
   return (
-    <section className="flex flex-col gap-base">
+    <section id={id} className="flex flex-col gap-base">
       <SectionHeader
         title={title}
         className="border-border border-b pb-group"
@@ -197,7 +205,7 @@ function StyleGuide() {
         </div>
       </Spec>
 
-      <Spec title="Surfaces">
+      <Spec id="surfaces" title="Surfaces">
         <div className="grid gap-base md:grid-cols-2">
           <div className="surface-panel flex flex-col gap-inline p-base">
             <span className="type-label">surface-panel</span>
@@ -263,7 +271,11 @@ function StyleGuide() {
             <Badge variant="outline">Outline</Badge>
             <Badge variant="destructive">Destructive</Badge>
           </div>
-          <Input placeholder="Search name, repo, owner…" className="max-w-sm" />
+          <Input
+            aria-label="Search plugins"
+            placeholder="Search name, repo, owner…"
+            className="max-w-sm"
+          />
         </div>
       </Spec>
 

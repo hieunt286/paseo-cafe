@@ -38,6 +38,10 @@ const RULES: { rule: RegExp; fix: string; allow?: RegExp }[] = [
     fix: "use a spacing role: gap-inline / chip / group / stack / base / section",
   },
   {
+    rule: /\b(?:[mp][trblxy]?|space-[xy])-\d+(?:\.\d+)?\b/g,
+    fix: "use a named spacing role instead of a numeric spacing utility",
+  },
+  {
     rule: /\btext-foreground\/\d+/g,
     fix: "secondary text is `text-muted-foreground` — there is no third tier",
   },

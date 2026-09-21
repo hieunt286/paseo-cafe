@@ -253,7 +253,7 @@ function SubmitPage() {
             <ul className="flex flex-col gap-group">
               {REQUIRED_CHECKS.map((item) => (
                 <li key={item} className="type-body flex items-start gap-group">
-                  <IconCheck className="mt-0.5 shrink-0 text-green-600" />
+                  <IconCheck className="mt-hair shrink-0 text-green-600" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -270,7 +270,7 @@ function SubmitPage() {
                   key={item}
                   className="type-body flex items-start gap-group text-muted-foreground"
                 >
-                  <IconCheck className="mt-0.5 shrink-0 text-muted-foreground/60" />
+                  <IconCheck className="mt-hair shrink-0 text-muted-foreground/60" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -560,7 +560,7 @@ function SubmitPage() {
                 key={item}
                 className="type-body flex items-start gap-group text-muted-foreground"
               >
-                <IconCheck className="mt-0.5 shrink-0 text-green-600" />
+                <IconCheck className="mt-hair shrink-0 text-green-600" />
                 <span>{item}</span>
               </li>
             ))}

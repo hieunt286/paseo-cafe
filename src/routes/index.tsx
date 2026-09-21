@@ -172,7 +172,7 @@ function App() {
   // it appear or disappear.
   const { anchorRef: resultsRef, capture: holdResultsPosition } =
     useScrollAnchor<HTMLDivElement>(
-      `${search.q}|${search.category}|${search.platform}|${search.sort}`,
+      `${search.q}|${search.category}|${search.platform}|${search.sort}|${search.page}`,
     );
   const applyFilters = (
     patch: Partial<Omit<CatalogSearch, "page">>,

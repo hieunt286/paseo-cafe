@@ -9,7 +9,7 @@ export function CopyBlock({ code, label }: { code: string; label?: string }) {
   return (
     <div className="surface-inset relative">
       {label ? (
-        <p className="type-eyebrow border-border border-b px-base py-group pr-10 text-muted-foreground">
+        <p className="copy-block-label type-eyebrow border-border border-b px-base py-group text-muted-foreground">
           {label}
         </p>
       ) : null}

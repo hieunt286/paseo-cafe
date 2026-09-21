@@ -52,7 +52,7 @@ export function PluginSecurityScan({
           {STATUS_LABELS[security?.status ?? "unset"]}
         </Badge>
       </AlertTitle>
-      <AlertDescription className="space-y-3">
+      <AlertDescription className="space-y-stack">
         {attestation ? (
           <>
             <div className="flex flex-wrap gap-group">
