@@ -1,5 +1,6 @@
 {
   "repo": "hieunt286/paseo-bm",
+  "package": "paseo-bm",
   "categories": ["orchestration", "productivity"],
   "platforms": ["macos", "linux"],
   "caveats": [
