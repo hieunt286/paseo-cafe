@@ -2,14 +2,8 @@
   "repo": "hieunt286/paseo-bm",
   "path": "plugin",
   "package": "paseo-bm-plugin",
-  "categories": [
-    "orchestration",
-    "productivity"
-  ],
-  "platforms": [
-    "macos",
-    "linux"
-  ],
+  "categories": ["orchestration", "productivity"],
+  "platforms": ["macos", "linux"],
   "caveats": [
     "Install with `npx paseo-bm`: it also registers the three bm-* agent roles the plugin needs. There is no other supported install.",
     "Installed straight from this page the screens load, but the three bm-* agent roles are missing, so the Manager cannot create a Worker.",
