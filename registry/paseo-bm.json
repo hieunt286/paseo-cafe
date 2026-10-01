@@ -1,6 +1,6 @@
 {
   "repo": "hieunt286/paseo-bm",
-  "path": "plugin",
+  "path": "plugin-package",
   "package": "paseo-bm-plugin",
   "categories": ["orchestration", "productivity"],
   "platforms": ["macos", "linux"],
